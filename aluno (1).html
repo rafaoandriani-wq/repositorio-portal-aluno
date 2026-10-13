@@ -1,0 +1,780 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Acadêmico | Área do Aluno</title>
+
+<style>
+:root {
+    --primary: #3157d5;
+    --primary-light: #edf1ff;
+    --background: #f5f7fb;
+    --white: #ffffff;
+    --text: #202b40;
+    --muted: #778198;
+    --border: #e8ebf2;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--text);
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 255px;
+    background: var(--white);
+    border-right: 1px solid var(--border);
+    padding: 25px 16px;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 10px 30px;
+}
+
+.logo-icon {
+    width: 43px;
+    height: 43px;
+    background: var(--primary);
+    color: white;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+}
+
+.logo h2 {
+    font-size: 17px;
+}
+
+.logo p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.menu-label {
+    font-size: 10px;
+    font-weight: bold;
+    color: #9ba3b5;
+    letter-spacing: 1.4px;
+    padding: 12px 12px;
+}
+
+.nav-link {
+    width: 100%;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 5px;
+    color: #657087;
+    background: transparent;
+    border: none;
+    border-radius: 9px;
+    text-align: left;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary);
+    background: var(--primary-light);
+}
+
+.nav-link.active {
+    font-weight: bold;
+}
+
+.nav-icon {
+    width: 22px;
+    text-align: center;
+    font-size: 17px;
+}
+
+.sidebar-bottom {
+    border-top: 1px solid var(--border);
+    margin-top: 25px;
+    padding-top: 15px;
+}
+
+.main {
+    margin-left: 255px;
+    width: calc(100% - 255px);
+    min-width: 0;
+}
+
+.topbar {
+    height: 75px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 35px;
+}
+
+.breadcrumb {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 5px;
+}
+
+.topbar h3 {
+    font-size: 17px;
+}
+
+.profile-small {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.avatar {
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    background: #e8edff;
+    color: var(--primary);
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+.content {
+    padding: 35px;
+    max-width: 1500px;
+    margin: auto;
+}
+
+.page {
+    display: none;
+    animation: appear .25s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.page-heading {
+    margin-bottom: 28px;
+}
+
+.page-heading h1 {
+    font-size: 27px;
+    margin-bottom: 9px;
+}
+
+.page-heading p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.welcome {
+    background: linear-gradient(115deg, #3157d5, #5878e7);
+    color: white;
+    padding: 28px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.welcome h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.welcome p {
+    font-size: 14px;
+    opacity: .88;
+}
+
+.welcome-tag {
+    background: #ffffff25;
+    padding: 9px 13px;
+    border-radius: 8px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 22px;
+}
+
+.stat-icon {
+    width: 43px;
+    height: 43px;
+    display: grid;
+    place-items: center;
+    background: var(--primary-light);
+    border-radius: 11px;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.stat-card p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 9px;
+}
+
+.stat-card h3 {
+    font-size: 27px;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    overflow: hidden;
+    margin-bottom: 22px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 21px 23px;
+    border-bottom: 1px solid var(--border);
+}
+
+.panel-header h3 {
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.panel-header p {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.link-button {
+    border: none;
+    background: transparent;
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.empty-state {
+    padding: 38px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.empty-state h3 {
+    font-size: 15px;
+    margin-bottom: 9px;
+}
+
+.empty-state p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.info-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 25px;
+}
+
+.info-box h3 {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row span:first-child {
+    color: var(--muted);
+    min-width: 130px;
+}
+
+.info-row span:last-child {
+    font-weight: 600;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    font-size: 12px;
+    color: #9ba3b5;
+}
+
+.menu-toggle {
+    display: none;
+    border: none;
+    background: transparent;
+    font-size: 23px;
+    cursor: pointer;
+    color: var(--text);
+}
+
+@media (max-width: 1100px) {
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .sidebar {
+        transform: translateX(-100%);
+        z-index: 10;
+        transition: transform .25s;
+        box-shadow: none;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 0 0 0 100vmax #10182855;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .topbar {
+        padding: 0 18px;
+        gap: 12px;
+    }
+
+    .topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .content {
+        padding: 22px 16px;
+    }
+
+    .columns {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 23px;
+    }
+
+    .page-heading h1 {
+        font-size: 24px;
+    }
+
+    .profile-name {
+        display: none;
+    }
+}
+
+@media (max-width: 380px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <div class="logo-icon">🎓</div>
+            <div>
+                <h2>Portal Acadêmico</h2>
+                <p>Área do Aluno</p>
+            </div>
+        </div>
+
+        <div class="menu-label">PORTAL DO ALUNO</div>
+
+        <button class="nav-link active" data-page="inicio">
+            <span class="nav-icon">⌂</span> Início
+        </button>
+
+        <button class="nav-link" data-page="disciplinas">
+            <span class="nav-icon">▤</span> Disciplinas
+        </button>
+
+        <button class="nav-link" data-page="notas">
+            <span class="nav-icon">▥</span> Minhas Notas
+        </button>
+
+        <button class="nav-link" data-page="frequencia">
+            <span class="nav-icon">✓</span> Frequência
+        </button>
+
+        <button class="nav-link" data-page="atividades">
+            <span class="nav-icon">▣</span> Atividades
+        </button>
+
+        <button class="nav-link" data-page="calendario">
+            <span class="nav-icon">▦</span> Calendário
+        </button>
+
+        <div class="menu-label">CONTA</div>
+
+        <button class="nav-link" data-page="perfil">
+            <span class="nav-icon">♙</span> Meu Perfil
+        </button>
+
+        <div class="sidebar-bottom">
+            <button class="nav-link" id="logout">
+                <span class="nav-icon">⇥</span> Sair
+            </button>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="menu-toggle" id="menuToggle"
+                        aria-label="Abrir menu">☰</button>
+                <div>
+                    <div class="breadcrumb">Portal do Aluno / <span id="breadcrumb">Início</span></div>
+                    <h3 id="topTitle">Início</h3>
+                </div>
+            </div>
+
+            <div class="profile-small">
+                <div class="avatar">A</div>
+                <span class="profile-name">Aluno</span>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <!-- INÍCIO -->
+            <section class="page active" id="inicio">
+                <div class="page-heading">
+                    <h1>Olá, Aluno!</h1>
+                    <p>Consulte suas informações acadêmicas.</p>
+                </div>
+
+                <div class="welcome">
+                    <div>
+                        <h2>Bem-vindo ao Portal Acadêmico</h2>
+                        <p>Acompanhe sua jornada acadêmica em um só lugar.</p>
+                    </div>
+                    <div class="welcome-tag">ÁREA DO ALUNO</div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <p>Disciplinas</p>
+                        <h3>0</h3>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <p>Média Geral</p>
+                        <h3>—</h3>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">✓</div>
+                        <p>Frequência</p>
+                        <h3>—</h3>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <p>Atividades Pendentes</p>
+                        <h3>0</h3>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h3>Minhas Disciplinas</h3>
+                                <p>Disciplinas vinculadas ao seu perfil</p>
+                            </div>
+                            <button class="link-button" data-go="disciplinas">Ver todas</button>
+                        </div>
+
+                        <div class="empty-state">
+                            <div class="empty-icon">📚</div>
+                            <h3>Nenhuma disciplina cadastrada</h3>
+                            <p>Não há disciplinas vinculadas a este aluno.</p>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h3>Próximas Atividades</h3>
+                                <p>Atividades acadêmicas</p>
+                            </div>
+                            <button class="link-button" data-go="atividades">Ver todas</button>
+                        </div>
+
+                        <div class="empty-state">
+                            <div class="empty-icon">📝</div>
+                            <h3>Nenhuma atividade cadastrada</h3>
+                            <p>Não há atividades disponíveis no momento.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DISCIPLINAS -->
+            <section class="page" id="disciplinas">
+                <div class="page-heading">
+                    <h1>Minhas Disciplinas</h1>
+                    <p>Consulte as disciplinas vinculadas ao seu perfil.</p>
+                </div>
+
+                <div class="panel">
+                    <div class="empty-state">
+                        <div class="empty-icon">📚</div>
+                        <h3>Nenhuma disciplina cadastrada</h3>
+                        <p>Não existem disciplinas vinculadas a este aluno.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NOTAS -->
+            <section class="page" id="notas">
+                <div class="page-heading">
+                    <h1>Minhas Notas</h1>
+                    <p>Acompanhe seu desempenho acadêmico.</p>
+                </div>
+
+                <div class="panel">
+                    <div class="empty-state">
+                        <div class="empty-icon">📊</div>
+                        <h3>Nenhuma nota cadastrada</h3>
+                        <p>Não existem notas disponíveis para este aluno.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FREQUÊNCIA -->
+            <section class="page" id="frequencia">
+                <div class="page-heading">
+                    <h1>Minha Frequência</h1>
+                    <p>Acompanhe sua frequência acadêmica.</p>
+                </div>
+
+                <div class="panel">
+                    <div class="empty-state">
+                        <div class="empty-icon">✓</div>
+                        <h3>Nenhuma frequência cadastrada</h3>
+                        <p>Não existem registros de frequência disponíveis.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ATIVIDADES -->
+            <section class="page" id="atividades">
+                <div class="page-heading">
+                    <h1>Atividades</h1>
+                    <p>Consulte suas atividades acadêmicas.</p>
+                </div>
+
+                <div class="panel">
+                    <div class="empty-state">
+                        <div class="empty-icon">📝</div>
+                        <h3>Nenhuma atividade cadastrada</h3>
+                        <p>Não existem atividades disponíveis no momento.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CALENDÁRIO -->
+            <section class="page" id="calendario">
+                <div class="page-heading">
+                    <h1>Calendário</h1>
+                    <p>Consulte seus compromissos acadêmicos.</p>
+                </div>
+
+                <div class="panel">
+                    <div class="empty-state">
+                        <div class="empty-icon">📅</div>
+                        <h3>Nenhum evento cadastrado</h3>
+                        <p>Não existem eventos acadêmicos disponíveis.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PERFIL -->
+            <section class="page" id="perfil">
+                <div class="page-heading">
+                    <h1>Meu Perfil</h1>
+                    <p>Consulte as informações disponíveis no seu cadastro.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>Informações do aluno</h3>
+
+                    <div class="info-row">
+                        <span>Nome</span>
+                        <span>Aluno</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span>E-mail</span>
+                        <span>Nenhum e-mail cadastrado</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span>Curso</span>
+                        <span>Nenhum curso cadastrado</span>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer>
+            Portal Acadêmico · Área do Aluno
+        </footer>
+
+    </main>
+</div>
+
+<script>
+const pages = document.querySelectorAll(".page");
+const navLinks = document.querySelectorAll(".nav-link[data-page]");
+const topTitle = document.getElementById("topTitle");
+const breadcrumb = document.getElementById("breadcrumb");
+const sidebar = document.getElementById("sidebar");
+
+const pageNames = {
+    inicio: "Início",
+    disciplinas: "Minhas Disciplinas",
+    notas: "Minhas Notas",
+    frequencia: "Minha Frequência",
+    atividades: "Atividades",
+    calendario: "Calendário",
+    perfil: "Meu Perfil"
+};
+
+function navigateTo(pageId) {
+    if (!pageNames[pageId]) return;
+
+    pages.forEach(page => {
+        page.classList.toggle("active", page.id === pageId);
+    });
+
+    navLinks.forEach(link => {
+        link.classList.toggle(
+            "active",
+            link.dataset.page === pageId
+        );
+    });
+
+    topTitle.textContent = pageNames[pageId];
+    breadcrumb.textContent = pageNames[pageId];
+
+    sidebar.classList.remove("open");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+        navigateTo(link.dataset.page);
+    });
+});
+
+document.querySelectorAll("[data-go]").forEach(button => {
+    button.addEventListener("click", () => {
+        navigateTo(button.dataset.go);
+    });
+});
+
+document.getElementById("menuToggle").addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+});
+
+document.getElementById("logout").addEventListener("click", () => {
+    const confirmLogout = confirm("Deseja realmente sair do portal?");
+
+    if (confirmLogout) {
+        navigateTo("inicio");
+        alert("Este protótipo não possui sistema de autenticação conectado.");
+    }
+});
+</script>
+
+</body>
+</html>
